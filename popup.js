@@ -4,20 +4,40 @@
 
 'use strict';
 
-let changeColor = document.getElementById('changeColor');
+function textSize(fontSize, text) {
+  var span = document.createElement("span");
+  var result = {};
+  result.width = span.offsetWidth;
+  result.height = span.offsetWidth;
+  span.style.visibility = "hidden";
+  document.body.appendChild(span);
+  if (typeof span.textContent != "undefined")
+    span.textContent = text;
+  else span.innerText = text;
+  result.width = span.offsetWidth - result.width;
+  result.height = span.offsetHeight - result.height;
+  span.parentNode.removeChild(span);
+  return result;
+}
+
+// var size = textSize("9px", "test you aredffffffff");
+// alert("width: " + size.width + " height:" + size.height);
 
 chrome.storage.sync.get('color', function (data) {
   changeColor.style.backgroundColor = data.color;
-  changeColor.setAttribute('value', data.color);
+  // changeColor.setAttribute('value', data.color);
 });
 
 
 
-changeColor.onclick = function (element) {
-  let color = element.target.value;
-  alert(color);
-};
+// changeColor.onclick = function (element) {
+//   let color = element.target.value;
+//   alert(color);
+// };
 
+let inputTest = document.getElementById('subtitle-test');
+let hint = document.getElementById('hint');
+let wordsContainer = document.getElementById('subtitle-container');
 
 chrome.tabs.query({
   active: true,
@@ -25,10 +45,41 @@ chrome.tabs.query({
 }, function (tabs) {
   chrome.tabs.executeScript(
     tabs[0].id, {
-      // code: 'document.body.style.backgroundColor = "' + color + '";'
       code: 'var str = document.getElementsByClassName("captions-text")[0].firstChild.innerHTML; \
         str = str.replace(/<[^>]+>/g,"");\
-        str = str.replace(/&nbsp;/g, " ");\
-        alert(str);'
+        str = str.replace(/&nbsp;/g, " ");'
+    },
+    function (result) {
+      var sentence = String(result);
+      sentence = sentence.trim();
+      var originWords = sentence.split(" ");
+      var words = [];
+      originWords.forEach(word => {
+        if (word != "") {
+          words.push(word);
+        }
+      });
+      words.forEach(word => {
+        var input = document.createElement('input');
+        input.setAttribute('value', word);
+        input.setAttribute('readonly', 'true');
+        input.style.width = 16 * word.length + 'px';
+        input.onclick = function (evt) {
+          input.select();
+          document.execCommand("Copy");
+          hint.innerHTML = '<b>' + input.value + '</b> is copied';
+          delayToClearHint();
+        }
+        wordsContainer.appendChild(input);
+      });
     });
 });
+
+var hintTimeout = -1;
+
+function delayToClearHint() {
+  clearTimeout(hintTimeout);
+  hintTimeout = setTimeout(() => {
+    hint.innerHTML = '';
+  }, 1500);
+}

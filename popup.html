@@ -1,17 +1,37 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <style>
-      button {
-        height: 30px;
-        width: 30px;
-        outline: none;
-      }
-    </style>
-  </head>
-  <body>
-    <button id="changeColor"></button>
-    <script src="popup.js"></script>
-    <textarea id="subtitleArea">testtest</textarea>
-  </body>
+
+<head>
+  <style>
+    #hint {
+      height: 22px;
+      font-size: 18px;
+    }
+
+    #subtitle-container {
+      width: 600px;
+      height: 200px;
+      border: 1px solid #ffcc00;
+    }
+
+    #subtitle-container input {
+      font-size: 22px;
+      font-weight: bold;
+      color: darkslategray;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="test"></div>
+  <div id="hint"></div>
+  <!-- text container -->
+  <div id="subtitle-container">
+  </div>
+
+  <script src="popup.js"></script>
+
+</body>
+
 </html>
