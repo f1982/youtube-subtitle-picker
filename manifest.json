@@ -2,14 +2,20 @@
   "name": "Getting Started Example",
   "version": "1.0",
   "description": "Build an Extension!",
-  "permissions": ["activeTab", "declarativeContent", "storage"],
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "declarativeContent",
+    "storage",
+    "webNavigation"
+  ],
   "options_page": "options.html",
   "background": {
     "scripts": ["background.js"],
     "persistent": false
   },
   "page_action": {
-    "default_popup": "popup.html",
+    "default_title": "Youtube Subtitle Picker",
     "default_icon": {
       "16": "images/icon16.png",
       "32": "images/icon32.png",

@@ -8,11 +8,11 @@ function textSize(fontSize, text) {
   var span = document.createElement("span");
   var result = {};
   result.width = span.offsetWidth;
-  result.height = span.offsetWidth;
+  result.height = span.offsetWidth; 
   span.style.visibility = "hidden";
   document.body.appendChild(span);
   if (typeof span.textContent != "undefined")
-    span.textContent = text;
+      span.textContent = text;
   else span.innerText = text;
   result.width = span.offsetWidth - result.width;
   result.height = span.offsetHeight - result.height;
@@ -45,33 +45,10 @@ chrome.tabs.query({
 }, function (tabs) {
   chrome.tabs.executeScript(
     tabs[0].id, {
-      code: 'var str = document.getElementsByClassName("captions-text")[0].firstChild.innerHTML; \
-        str = str.replace(/<[^>]+>/g,"");\
-        str = str.replace(/&nbsp;/g, " ");'
-    },
-    function (result) {
-      var sentence = String(result);
-      sentence = sentence.trim();
-      var originWords = sentence.split(" ");
-      var words = [];
-      originWords.forEach(word => {
-        if (word != "") {
-          words.push(word);
-        }
-      });
-      words.forEach(word => {
-        var input = document.createElement('input');
-        input.setAttribute('value', word);
-        input.setAttribute('readonly', 'true');
-        input.style.width = 16 * word.length + 'px';
-        input.onclick = function (evt) {
-          input.select();
-          document.execCommand("Copy");
-          hint.innerHTML = '<b>' + input.value + '</b> is copied';
-          delayToClearHint();
-        }
-        wordsContainer.appendChild(input);
-      });
+      file:'inject.js'
+      // code: 'var str = document.getElementsByClassName("captions-text")[0].firstChild.innerHTML; \
+      //   str = str.replace(/<[^>]+>/g,"");\
+      //   str = str.replace(/&nbsp;/g, " ");'
     });
 });
 
