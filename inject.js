@@ -37,9 +37,9 @@ function initSubtitleArea() {
 }
 
 /**
-* Update refresh strategy
-* 
-*/
+ * Update refresh strategy
+ * 
+ */
 function updateRefreshStrategy() {
     var subtitlesState = showSubtitlesButton.getAttribute('aria-pressed');
     var playState = playButton.getAttribute('aria-label');
@@ -64,6 +64,12 @@ function refresh() {
 
     showOtherSubtitles();
 }
+
+
+chrome.runtime.onMessage.addListener(function (message, callback) {
+    console.log('message', message);
+
+});
 
 
 function showOtherSubtitles() {

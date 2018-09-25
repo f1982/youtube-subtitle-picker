@@ -1,7 +1,7 @@
 {
-  "name": "Getting Started Example",
+  "name": "Youtube Subtitles Picker",
   "version": "1.0",
-  "description": "Build an Extension!",
+  "description": "A better way to look inside Youtube's subtitles",
   "permissions": [
     "tabs",
     "activeTab",
